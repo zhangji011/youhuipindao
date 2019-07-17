@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+  <meta name="format-detection" content="telephone=no">
+  <meta name="full-screen" content="yes">
+  <meta name="x5-fullscreen" content="true">
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <title>商户巡检系统</title>
+  <style>
+    body,html{
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body class="bd">
+  <div id="app" style="height:100%;overflow: hidden;">
+    <!-- <section class="progress" id="pg">
+      <div class="loader loader-1">
+        <div class="loader-outter"></div>
+        <div class="loader-inner"></div>
+      </div> -->
+      <!-- <div class="loader-text"></div> -->
+    </section>
+    <router-view></router-view>
+  </div>
+  <div id="container"></div>
+  
+  <script type="text/javascript" src="static/polyfill.min.js"></script>
+  <script>
+
+    // 定位经纬度信息
+    window.LATITUDE = '';
+    window.LONGITUDE = '';
+    window.CITYNAME = '';
+    window.CITYNAME2 = '';
+    window.LBSINFO = {
+    }
+    window.isUseBaiDuLoc = false;
+    LBS();
+    function LBS() {
+      try {
+        if (/iP(ad|hone|od)/.test(navigator.userAgent)) {
+          setTimeout(() => {
+            // 苹果客户端定位
+            window.getLocationInfo()
+          }, 20)
+        } else {
+          // android 客户端定位
+          window.LONGITUDE = window.goActivity.getLongitude();//查询经度信息
+          window.LATITUDE = window.goActivity.getLatitude();//查询纬度
+          window.CITYNAME = window.goActivity.getCityName();
+        }
+      } catch (e) {
+        window.isUseBaiDuLoc = true;
+      }
+    }
+
+    // ios客户端回调
+    function callBackGetLocationInfo(json) {
+      // ios
+      window.LONGITUDE = json.Longitude;
+      window.LATITUDE = json.Latitude;
+      window.LBSINFO = json;
+      window.CITYNAME = json.CityName;
+    }
+
+    function LBSBD(isUseBaiDuLoc,cb) {
+      if(window.LATITUDE && window.LATITUDE != ""){
+        cb(window.LATITUDE);
+        return false;
+      }
+      if(typeof cb !="undefined" && window.LATITUDE){
+        cb(window.LATITUDE);
+        return false;
+      }
+      window.isUseBaiDuLoc = !!isUseBaiDuLoc;
+      if (window.isUseBaiDuLoc) {
+        try {
+          new BMap.Geolocation().getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) { //判断状态
+              console.log(r)
+              new BMap.Geocoder().getLocation(r.point, function (rs) {
+                var cityParm = rs.addressComponents.city;
+                var currentCityParm = rs.address;
+                // console.log(rs.addressComponents.city);
+                sessionStorage.setItem('cityItem', cityParm);
+                // console.log(sessionStorage.getItem('cityItem'));
+                sessionStorage.setItem('currentCityParm', currentCityParm);
+                // console.log(currentCityParm);
+                if (rs) {
+                  var addComp = rs.addressComponents;
+                  window.LATITUDE = rs.point.lat;
+                  window.LONGITUDE = rs.point.lng;
+                  window.CITYNAME = addComp.city;
+                  window.CITYNAME2 = addComp.district;
+                } else {
+                  window.LATITUDE = r.point.lat;
+                  window.LONGITUDE = r.point.lng;
+                  window.CITYNAME = r.address.city;
+                }
+                if(typeof cb !="undefined"){
+                  cb(window.LATITUDE);
+                }
+              })
+            }
+          })
+        } catch (e) {
+          console.log("百度地图还没有加载好")
+        }
+      }
+    }
+
+  </script>
+  <script src="https://unpkg.com/cube-ui/lib/cube.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/cube-ui/lib/cube.min.css">
+</body>
+
+</html>

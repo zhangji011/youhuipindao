@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=UTF-8>
+    <meta name=viewport content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>商户巡检</title>
+    <link rel="stylesheet" href="static/weui.min.css">
+    <style>body,html{height:100%;background-color:#f8f8f8}body{font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.item{padding:0.625rem 0}.item__title{margin-bottom:0.3125rem;padding-left:0.9375rem;padding-right:0.9375rem;color:#999;font-weight:400;font-size:0.875rem}.item__ctn{padding:0 0.9375rem}.page_feedback{padding:0.9375rem;overflow:auto;background-color:#FFF}label>*{pointer-events:none}.weui-picker__item{padding:0;height:2.125rem;line-height:2.125rem}.weui-navbar__item{height:3.125rem;line-height:3.125rem;padding-right: 3.125rem;font-size:1.125rem;}.icon{float:left;width:3.125rem;height:100%;text-align:left;background-image:url(static/img/left_back.png);background-repeat:no-repeat;background-position:0.375rem 50%;background-size:1.4rem;}</style></head>
+  
+  <body ontouchstart>
+    <p id=bear></p>
+    <div class=weui-tab id=tab>
+      <div class=weui-navbar>
+        <div class="weui-navbar__item">
+          <span onclick="JavaScript:history.go(-1);" class="icon"></span>
+            <span>商户巡检</span>
+        </div>
+        <!-- <div class=weui-navbar__item>上传</div> -->
+      </div>
+      <div class=weui-tab__panel>
+        <div class=weui-tab__content>
+          <form id="form" enctype="multipart/form-data" onsubmit="return false;">
+            <div class="weui-cells weui-cells_form">
+          
+          <div class="weui-cells weui-cells_form" id=uploaderCustom1>
+            <div class=weui-cell>
+              <div class=weui-cell__bd>
+                <div class=weui-uploader>
+                  <div class=weui-uploader__hd>
+                    <p class=weui-uploader__title><span style="color:red;"> *必传：</span>门头照片</p>
+                    <div class=weui-uploader__info>
+                      <span id=uploadCount1></span></div>
+                    </div>
+                  </div>
+                  <div class=weui-uploader__bd>
+                    <ul class=weui-uploader__files id=uploaderCustomFiles1></ul>
+                    <div class=weui-uploader__input-box>
+                      <input name="pictureFile" id=uploaderCustomInput  class=weui-uploader__input type=file accept=image/* multiple=""></div>
+                  </div>
+                  <div>注意：请上传临近商户照片</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <input id="images" name="images" type="hidden">
+
+          <div class=weui-btn-area>
+              <a id=formSubmitBtn href="javascript:subReg();" class="weui-btn weui-btn_primary">提交</a>
+            </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="static/example.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="static/weui.min.js"></script>
+  </body>
+<script>
+
+/* *
+* 确认提交信息(VM)
+* */
+var imagesIds = "";
+var imgStatus1 = "",
+    imgStatus2 = "",
+    imgStatus3 = "";
+function GetQueryString(name) { 
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+      var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+      var context = ""; 
+
+  if (r != null) 
+  context = r[2]; 
+reg = null; 
+r = null; 
+return context == null || context == "" || context == "undefined" ? "" : context; 
+}
+function subReg(){
+  // console.log(window.location.href.split('?')[1]);
+  // 验证参数值
+  $("#images").val(imagesIds);
+  if(imgStatus1 == 1) {
+    $.ajax({
+        type:"POST",
+        url: "https://find.cmpay.com:9102/csxjServer/merchantXj/uploadInfo",
+        // url: "https://hbtest.letshappy.cn/csxjServer/merchantXj/uploadInfo",
+        async: false,
+        // data: $("#form").serialize(),
+        data: {
+          userId: GetQueryString("userId"),
+          merId: GetQueryString('merId'),
+          statusType: window.location.href.split('statusType=')[1],
+          imagesId: $("#images").val(),
+        },
+        dataType:"json",
+        success:function(d){
+          console.log(this.data);
+          if(d.code == '0'){
+            var loading = weui.loading('提交中...');
+            setTimeout(function () {
+                loading.hide();
+                weui.toast('提交成功', 2000);
+            }, 1500);
+            setTimeout("JavaScript:history.go(-2)", 2000); 
+          } else if(d.code == '-1'){
+            weui.alert('该终端已由其他人员维护，请勿重复提交');
+          } else {
+              weui.confirm('该终端数据已录入，是否覆盖', {
+                title: '提示',
+                buttons: [{
+                    label: '取消',
+                    type: 'default',
+                    onClick: function(){ console.log('no') }
+                }, {
+                    label: '确定',
+                    type: 'primary',
+                    onClick: function(){
+                      console.log('yes');
+                      $.ajax({
+                          type:"POST",
+                          url: "https://find.cmpay.com:9102/csxjServer/merchantXj/uploadInfo",
+                          // url: "https://hbtest.letshappy.cn/csxjServer/merchantXj/uploadInfo",
+                          async: false,
+                          // data: $("#form").serialize(),
+                          data: {
+                            userId: GetQueryString("userId"),
+                            merId: window.location.href.split('merId=')[1],
+                            statusType: 0,
+                            imagesId: $("#images").val(),
+                            // mMerchantCode: $("#mMerchantCode").val(),
+                            // images: $("#images").val(),
+                          },
+                          dataType:"json",
+                          success:function(d){
+                            setTimeout(function () {
+                                weui.toast('提交成功', 1500);
+                            }, 1500);
+                          }
+                      });
+                    }
+                }]
+              });
+          }
+      }
+    });
+  } else {
+    weui.alert('请上传商户门头照');
+  }
+};
+</script>
+</html>
