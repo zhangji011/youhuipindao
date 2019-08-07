@@ -5,19 +5,20 @@
       <img :src="slider2[0].marketingIcon" class="oneimg">
       </a>
     </div>
-   <swiper v-else :options="swiperOption" ref='mySwiper'>
-   <!-- <swiper  :options="swiperOption" ref='mySwiper'> -->
-		<swiper-slide v-for="item in slider2">
-				<a @click="goDetail($event,item,11,'top')" >
-					<img :src="item.marketingIcon">
-				</a>
-		</swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
+       <swiper v-else  :options="swiperOption" ref='mySwiper'>
+      <!-- <swiper  :options="swiperOption" ref='mySwiper'> -->
+      		<swiper-slide v-for="item in slider2">
+      				<a @click="goDetail($event,item,11,'top')" >
+      					<img :src="item.marketingIcon">
+      				</a>
+      		</swiper-slide>
+         <div class="swiper-pagination" slot="pagination"></div>
+       </swiper>
   </div>
 </template>
 
 <script>
+  import attend from "@@/components/userAttend/attend.vue";
 import { mapState, mapMutations } from "vuex";
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from "vue-awesome-swiper";
@@ -36,11 +37,11 @@ export default {
         //循环
         loop: true,
         initialSlide: 1,
-        // autoplay: {
-        //   delay: 4000,
-        //   stopOnLastSlide: false,
-        //   disableOnInteraction: false,
-        // },
+        autoplay: {
+          delay: 4000,
+          stopOnLastSlide: false,
+          disableOnInteraction: false,
+        },
         normalizeSlideIndex: false,
         spaceBetween: 6,
         slidesOffsetBefore: document.body.clientWidth/1.1*0.045,
@@ -65,11 +66,15 @@ export default {
   },
 	methods: {
     goDetail(obj) {
-      console.log(obj)
       let url = this.slider2[obj].marketingEventCotent;
       let objs = this.slider2[obj];
       console.log(this.slider2[obj].marketingTitle);
       if(this.tokenstatus == 11) {
+      // if(true) {
+        // if(url.indexOf("scoringActive")!=-1){  //跳转积分打榜页面
+        //   window.location.href=url;
+        //   return;
+        // }
         if (
           (/iP(ad|hone|od)/.test(navigator.userAgent) ? "ios" : "android") ==
           "android"
@@ -98,7 +103,6 @@ export default {
                   : url +
                     "?SOURCE=DISCOVER&account=" +
                     this.token.productNo;
-              // console.log(url_2);
               window.location = "activity://goWeb?url=" + url_2;
         };
       } else {
@@ -135,7 +139,10 @@ export default {
     ]),
     swiper() {
       return this.$refs.mySwiper.swiper;
-    }
+    },
+    showSwiper () {
+				return this.slider2.length
+			}
   },
   created() {
     vm = this;

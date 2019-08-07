@@ -33,12 +33,14 @@
             <div class="address-info">
               <div class="left" @click="jumpMap()">
                 <img src="/static/img/address_icon.png"/>
-                <a>{{shopData.busAddr}}</a>
+                <!-- <a>{{shopData.busAddr}}</a> -->
+                <div class="texta" style="padding-left: 1.5rem;">{{shopData.busAddr}}</div>
               </div>
-              <div v-if="showTel"
+              <!-- <div v-if="showTel"
                    class="right">
                 <a :href="'tel:'+shopData.mercHl"><img src="/static/img/seller_phone_button.png"/></a>
-              </div>
+              </div> -->
+              <a v-if="showTel" style="position: absolute;width: 1.5rem;height: 1.5rem;top: 50%;margin-top: -0.75rem;right: 0.5rem;" :href="'tel:'+shopData.mercHl"><img style="width: 1.5rem;height: 1.5rem;" src="/static/img/seller_phone_button.png"/></a>
               <div class="hr-2"></div>
             </div>
 
@@ -55,14 +57,14 @@
           </div>
         </section>
         <!-- <div class="nullHeight"></div> -->
-        <section class="s_3" v-show = "couponList.length>=1">
+        <!-- <section class="s_3" v-show = "couponList.length>=1">
           <div class="title">
             <p>商户优惠券</p>
             <div class="hr-2"></div>
           </div>
-          <div class="seller-coupon">
+          <div class="seller-coupon"> -->
             <!-- <ul v-for="(item,index) in shopData.mktrec"> -->
-            <ul v-for="(item,index) in couponList" :key="'ul'+index">
+            <!-- <ul v-for="(item,index) in couponList" :key="'ul'+index">
               <li class="left">
                 <div class="c1">
                   <span>¥ <i class="par">{{item.issBillAmt}}</i></span>
@@ -88,18 +90,22 @@
               </li>
             </ul>
           </div>
-        </section>
+        </section> -->
         <div class="nullHeight"></div>
-        <!-- <section class="s_4" v-if = "this.tokenstatus == 11">
+        <!--  v-if = "this.tokenstatus == 11" -->
+        <!--  v-show = "shopData.rec.length>=1" -->
+        <section class="s_4" v-show="islogin">
+        <!-- <section class="s_4" v-show="true"> -->
           <div class="title" v-show = "shopData.rec.length>=1">
             <p>优惠活动</p>
             <div class="hr-2"></div>
           </div>
           <div class="address" v-for="(item,index) in shopData.rec" @click="jumpInfo(item)">
             <div class="address-info">
-              <div class="left">
-                <span class="list-flg">满减</span>
-                <span class="activity">{{item.GME_NM}}：{{item.GME_ABBR}}</span>
+              <div class="left_left">
+                <span class="list-flg">{{item.DRAW_RULE_TYP == '3' ? '满送' : '满减'}}</span>
+                <!-- <span class="activity">{{item.GME_NM}}：{{item.GME_ABBR}}</span> -->
+                <span class="activity">{{item.GME_ABBR}}</span>
               </div>
               <div class="right">
                 <span class="link">查看规则</span>
@@ -108,8 +114,8 @@
               <div class="hr-2"></div>
             </div>
           </div>
-        </section> -->
-        <!-- <div class="nullHeight"></div> -->
+        </section>
+        <!-- <div class="nullHeight"></div>
         <section class="s_5" v-show = "shopData.mercBriefDesc.length>=1">
           <div class="title">
               <p>商家简介</p>
@@ -119,7 +125,7 @@
             <div>{{shopData.mercBriefDesc}}</div>
           </div>
         </section>
-        <!-- <div class="null">&nbsp;&nbsp;</div> -->
+        <div class="null">&nbsp;&nbsp;</div> -->
       </div>
     </scroll>
   </div>
@@ -161,7 +167,9 @@ export default {
       scrollbar:false,
       isDisable: false,
       bgIcon: false,
-      show: true
+      show: true,
+      GME_ID: '',
+      islogin:false
     };
   },
   computed: {
@@ -198,6 +206,9 @@ export default {
   created() {
     this.init();
     this.getCoupon();
+    if(this.tokenstatus==11){
+      this.islogin=true;//登录状态
+    }
   },
   components: {
     Scroll
@@ -211,23 +222,46 @@ export default {
     init() {
       // let params = this.$route.query.params;
       let params = this.shopParm;
+      // alert(this.token.productNo)
+      // alert(this.token.session)
       if(isHebaoApp()) {
-        // axios.post("getShopInfoDetail", params).then(res => {  // 正式环境调用接口
-        axios.post("getShopInfoDetailTest", params).then(res => {   //测试环境调用接口
-            if (res.data) {
+        // axios.post("getShopInfoDetail", params).then(res => {  // 正式环境调用接口   走接口
+        //         gmeId: "19080701",
+        // mbl_no: "15111427793",
+        // merc_id: "888073113001851",
+
+        // axios.post("getShopInfoDetailTest", params).then(res => {   //测试环境调用接口   走文件
+        axios.post("getShopInfoDetail", {
+          mbl_no: this.token.productNo || '15111427793',
+          merc_id: this.shopParm.merc_id,
+        }).then(res => {  // 正式环境调用接口   走接口
+            if (res.code==="0") {
               this.shopData = res.data;
-              console.log("shop",this.shopData);
+              // console.log("shop",this.shopData);
               this.showTel = this.shopData.mercHl.length>2 ? true : false
             }
         });
       } else {
-          axios.post("getExternalShopInfoDetail", params).then(res => {
+          // axios.post("getExternalShopInfoDetail", params).then(res => {
+          // axios.post("getShopInfoDetail", params).then(res => {
+          axios.post("getShopInfoDetail", {
+            mbl_no: this.token.productNo || '15111427793',
+            merc_id: this.shopParm.merc_id,
+          }).then(res => {
             if (res.code === "0") {
               this.shopData = res.data;
               this.showTel = this.shopData.mercHl.length>2 ? true : false
             }
           });
       }
+      // http://113.108.79.80:3020/rcServer/getRecInfoDetail?gmeId=19080701&merc_id=888073113001851%20&mbl_no=15111427793
+      // axios.post("getShopInfoDetail", {
+      //   gmeId: "19080701",
+      //   mbl_no: "15111427793",
+      //   merc_id: "888073113001851",
+      // }).then(res => {
+      //   console.log(res.data)
+      // })
     },
     payKHDs() {
       // 神策
@@ -291,19 +325,24 @@ export default {
           // 非客户端
       }
     },
+    // http://113.108.79.80:3020/rcServer/getRecInfoDetail?gmeId=19080701&merc_id=888073113001851%20&mbl_no=15111427793
     jumpInfo(obj) {
       let params = {
         gmeId: obj.GME_ID,
         latitude: this.latitude,
         longitude: this.longitude,
-        mbl_no: this.token.productNo || "15074834092",
-        merc_id: obj.mercId,
-        // session: this.token.session.replace(/\+/g, "%2B"),
+        mbl_no: this.token.productNo,   //正式
+        // mbl_no: 15111427793,  //测试11111
+        // merc_id: this.shopData.mercId || '888073113001851',
+        merc_id: '888073113001851',
         merc_latitude: obj.LATITUDE,
         merc_longitude: obj.LONGITUDE
+        // gmeId: "19080701",
+        // mbl_no: "15111427793",
+        // merc_id: "888073113001851",
       };
       // alert(JSON.stringify(obj));
-      // console.log("222222222",obj);
+      // console.log(obj);
       this.$router.push({
         path: "/hebaoInfo",
         query: {
@@ -571,12 +610,13 @@ ul {
     position: relative;
     // height: 2.8125rem;
     .left {
-      width: 75%;
+      width: 80%;
       height: 100%;
       position: relative;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+      padding: 0.7rem 0;
       img {
         width: 1.375rem;
         height: 1.375rem;
@@ -588,7 +628,52 @@ ul {
         font-size: 0.875rem;
         padding-left: 2rem;
         color: #13252e;
+        // line-height: 2.8125rem;
+      }
+      .texta{
+        font-family: PingFangSC-Regular;
+        font-size: 0.875rem;
+        color: #13252e;
+      }
+      .activity {
+        font-family: PingFangSC-Regular;
+        font-size: 0.875rem;
+        padding-left: 0.25rem;
+        color: #13252e;
         line-height: 2.8125rem;
+      }
+      .list-flg {
+        font-family: PingFangSC-Regular;
+        font-size: 0.75rem;
+        margin-left: 0.3125rem;
+        padding: 0 0.2rem;
+        color: #e11a2f;
+        background-color: #fff0f1;
+        border: 0.0063rem solid #e11a2f;
+        border-radius: 0.125rem;
+      }
+    }
+    .left_left {
+      width: 80%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+      padding: 0rem 0;
+      float: left;
+      img {
+        width: 1.375rem;
+        height: 1.375rem;
+        position: absolute;
+        top: .7rem;
+      }
+      a {
+        font-family: PingFangSC-Regular;
+        font-size: 0.875rem;
+        padding-left: 2rem;
+        color: #13252e;
+        // line-height: 2.8125rem;
       }
       .activity {
         font-family: PingFangSC-Regular;
@@ -609,8 +694,12 @@ ul {
       }
     }
     .right {
+      // display: block;
       width: 4.3rem;
       height: 2.5rem;
+      // width: 20%;
+      // float: none;
+      // height: 100%;
       position: relative;
       .link {
         font-family: PingFangSC-Regular;

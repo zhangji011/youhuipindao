@@ -28,7 +28,9 @@ Object.keys(methods).forEach((key) => {
 // 神策
 import sa from "sa-sdk-javascript";
 import 'swiper/dist/css/swiper.css'
-
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
 sa.init({
     sdk_url: "https://static.sensorsdata.cn/sdk/1.10.9/sensorsdata.min.js",
     heatmap_url: "https://static.sensorsdata.cn/sdk/1.10.9/heatmap.min.js",
@@ -161,6 +163,7 @@ router.beforeEach((to, from, next) => {
       // 请求banner1
       axios.get("index/getIndexAllData")
       .then((res) => {
+        // alert("main.js3333")
           store.commit("SLIDER2", (res.data ? res.data.operations : []));
           slider2 += 1;
           store.commit("SLIDER", (res.data ? res.data.tops : []));
@@ -180,9 +183,11 @@ router.beforeEach((to, from, next) => {
           // console.log("xiao",store.state.recommends)
           checkUtil(slider, slider1, slider2, next)
       }).catch((res) => {
+        // alert("main.js11111")
           // window.location.reload()
       })
     }).catch((res) => {
+      // alert("main.js2222")
       // console.log("加载失败了")
       console.log("No queryAccount");
       axios.post("queryAccount", {})
@@ -204,7 +209,7 @@ router.beforeEach((to, from, next) => {
         store.commit("TOKEN", res.data || {});
         store.commit("TOKENSTATUS", res.data.productNo.length);
         console.log("xxxxxxxxxxxxx",store.state.token.productNo.length);
-        
+
         }).catch((res) => {
           // console.log("加载失败了")
           // window.location.reload()
@@ -229,11 +234,12 @@ router.beforeEach((to, from, next) => {
             store.commit("RECOMMENDS", (res.data ? res.data.recommends : []));
             recommends += 1;
             // console.log("xiao",store.state.alertinfo)
+            // alert("main.js")
             checkUtil(slider, slider1, slider2, next)
         }).catch((res) => {
             // window.location.reload()
         })
-      
+
     })
   // } else {
   //     console.log("外放端");
@@ -256,7 +262,7 @@ router.beforeEach((to, from, next) => {
   //       store.commit("TOKEN", res.data || {});
   //       store.commit("TOKENSTATUS", res.data.productNo.length);
   //       console.log("xxxxxxxxxxxxx",store.state.token.productNo.length);
-        
+
   //       }).catch((res) => {
   //         // console.log("加载失败了")
   //         // window.location.reload()
@@ -298,7 +304,7 @@ router.beforeEach((to, from, next) => {
 //   asyncLoaded(
 //     "https://api.map.baidu.com/api?v=2.0&ak=wrkfH0yCNoWEHrXm0L9A5KdGaU8To9dR&callback=window.LBSBD_1",
 //     () => {
-     
+
 //     }
 //   );
 

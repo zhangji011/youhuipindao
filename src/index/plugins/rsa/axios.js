@@ -31,12 +31,19 @@ axios.interceptors.request.use(config => {
     }else{
          //拼接请求参数
          if (config.url == "queryAccount") {
+           // alert(window.location.href)
             // config.url = urlObj.api + config.url+"?"+window.location.href.split('?')[1].replace(/SIGN_DATA/g,'sign_data').replace(/CREDTENTIAL/g,'credtential')
             config.url = urlObj.api + config.url + "?" + window.location.href.split('?')[1].replace(/SIGN_DATA/g, 'sign_data').replace(/CREDTENTIAL/g, 'credtential')
         } else if (config.url.indexOf('getContent') > 0) {
             // 更换头部
             axios.defaults.headers.post['Content-Type'] = 'application/json;encoding=utf-8';
-        } else {
+        } else if(config.url.indexOf('queryUserAttend')!=-1 || config.url.indexOf('userAttend')!=-1 || config.url.indexOf('integralRank')!=-1 || config.url.indexOf('queryIntegralDetail')!=-1 || config.url.indexOf('queryExchangeDetail')!=-1 || config.url.indexOf('ZJgetShopInfo')!=-1 || config.url.indexOf('ZJqueryCoupon')!=-1 || config.url.indexOf('queryAmount')!=-1 || config.url.indexOf('exchangeCoupon')!=-1 || config.url.indexOf('queryUserAttend')!=-1){  //8.22新增else if专门判断是否是积分打榜接口
+			if(config.url.indexOf('ZJgetShopInfo')!=-1 ||config.url.indexOf('ZJqueryCoupon')!=-1){  //积分打榜需要截取的URL,避免重复的shopinfo接口
+				config.url = urlObj.jfdbapi + config.url.substr(2) + "?" + objPlan(config.data, 1);  //拼接积分打榜的接口
+			}else{
+				config.url = urlObj.jfdbapi + config.url + "?" + objPlan(config.data, 1);  //拼接积分打榜的接口
+			}
+		}else {
             if(config.url == "getExternalShopInfoDetail") {
                 if(isShopDetail()) {
                     config.url = urlObj.api + config.url + "?" + window.location.href.split('?')[1];
@@ -50,8 +57,6 @@ axios.interceptors.request.use(config => {
             }
         }
     }
-
-
 
     return config
 }, error => {

@@ -22,9 +22,9 @@
               <span class="l">{{item.BUS_ADDR}}</span>
               <span class="r">{{item.distance}}km</span>
             </div>
-            <!-- <div class="c3">
-              <span v-for="item1 in item.ACT_INF" class="b" >{{item1.GME_ABBR}}</span>
-            </div> -->
+            <div class="c3" v-show="isShowInfo">
+              <span v-for="(item1,ide) in item.ACT_INF" class="b" :class="{noshow:ide>2}" >{{item1.GME_ABBR}}</span>
+            </div>
           </li>
           <li class="right">
             <div class="c4">
@@ -61,7 +61,8 @@ export default {
       defaultIcon: 'this.src="' + "/static/img/error.png" + '"',
       pullUpLoad: {
         threshold: -50
-      }
+      },
+      isShowInfo:false  //默认不展示优惠信息
     };
   },
   props: {
@@ -81,10 +82,16 @@ export default {
     }
   },
   computed: {
-    ...mapState(["token","showLoading"])
+    ...mapState(["token","tokenstatus","showLoading"])
   },
 
   mounted() {
+    if(this.tokenstatus == 11) {
+      this.isShowInfo = true;
+      // document.getElementById("btnLog").style.width= "100%";
+    } else {
+      this.isShowInfo = false;
+    };
     // this.init();
   },
   created() {},
@@ -741,5 +748,8 @@ export default {
   // padding-top: 1.2rem;
   // font-size: 0.6875rem;
   // color: #afadadc4;
+}
+.noshow{
+  display: none!important;
 }
 </style>

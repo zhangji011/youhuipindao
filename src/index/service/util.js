@@ -136,6 +136,16 @@ export const shareNow = (shareUrl, shareTxt) =>  {
       window.MobileWalletShare.startShare('', shareUrl, shareTxt);
   }
 };
+
+//关闭当前页面
+export const closePage = () => {
+  if (AppFlag() === '1') {   //苹果
+      window.location.href ="activity://CLOSEWEBVIEW";
+  } else if (AppFlag() === '0') {   //安卓
+     window.goActivity.closeWebView();
+  }
+};
+
 // 判断是否在和包浏览器环境
 export const isHebaoApp = () => {
   var u = navigator.userAgent;
@@ -147,8 +157,8 @@ export const isHebaoApp = () => {
 };
 /**
  * 异步加载JS
- * @param {*} url 
- * @param {*} callBack 
+ * @param {*} url
+ * @param {*} callBack
  */
 export const asyncLoaded = function(url, callBack) {
   /*url为js的链接，callBack为url的js中的函数（该函数调用应该写到匿名函数中，如function(){console.log(div.getScrollOffset())}）*/
@@ -359,6 +369,7 @@ export const getUUID = () => {
 };
 
 export const checkUtil = (slider, slider1, slider2, next) => {
+  // alert("checkUtil工具类执行")
   if (slider && slider1 && slider2) {
     try {
       setTimeout(() => {
@@ -376,6 +387,10 @@ export const animationProgress = (to, from, next, history, historyCount) => {
   const fromIndex = store.state.animation[from.path]; // / 0
   console.log("to.path", to.path, toIndex);
   console.log("from.path", from.path, fromIndex);
+  // if(from.path=="/rankingList" && to.path =="/scoringActive"){  //积分打榜  处理活动首页返回和包主页面问题
+       // closePage();   //直接关闭当前页面
+       // window.history.go(-1);
+  // }
   // history.getItem(from.path);
   if (toIndex) {
     if (

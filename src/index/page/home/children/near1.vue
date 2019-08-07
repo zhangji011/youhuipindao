@@ -26,9 +26,9 @@
                       <span class="l">{{item.BUS_ADDR}}</span>
                       <span class="r">{{item.distance}}km</span>
                   </div>
-                  <!-- <div v-show="isShowInfo" class="c3" >
-                      <span  v-for="item1 in item.ACT_INF" class="b" >{{item1.GME_ABBR}}</span>
-                  </div> -->
+                  <div v-show="isShowInfo" class="c3" >
+                      <span  v-for="(item1,ide) in item.ACT_INF" class="b" :class="{noshow:ide>2}" >{{item1.GME_ABBR}}</span>
+                  </div>
               </li>
               <li class="right">
                   <div class="c4">
@@ -781,5 +781,8 @@ export default {
   // padding-top: 1.2rem;
   // font-size: 0.6875rem;
   // color: #afadadc4;
+}
+.noshow{
+  display: none!important;
 }
 </style>

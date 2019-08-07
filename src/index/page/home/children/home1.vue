@@ -41,7 +41,16 @@
           <section v-if="slider && slider.length>0" class="s_2 s foods-wrapper">
             <div class="scroll content slide-content">
               <div>
-                  <div class="slider-wrapper">
+                <!-- 一张轮播图 -->
+                <div class="slider-wrapper" v-if="slider.length==1">
+                  <div>
+                    <a  @click="goDetail(0,slider[0],2,'top')" style="display: block;" >
+                        <img :src="slider[0].marketingIcon">
+                    </a>
+                  </div>
+                </div>
+                <!-- 二张以上 -->
+                  <div class="slider-wrapper" v-else>
                       <slider :click="slider_top_click" :autoPlay = "slider.length>1" :loop="slider.length>1">
                           <div v-for="item in slider">
                             <!-- :key="item.marketingId -->
@@ -466,7 +475,7 @@ export default {
       // startY = touch.pageY;
       // startX = touch.pageX;
     },
-    goCatalogs(index,obj, channel = "default") {
+    goCatalogs(index,obj, channel = "default") {  //点击超市，美食，加油站，药店
       try {
         if (channel == "classify") {
           // 神策
@@ -493,8 +502,8 @@ export default {
       this.l=(document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).longitude:window.LONGITUDE
       this.s=(document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).latitude:window.LATITUDE
       this.cityName1 =((document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).cityName:"")||window.CITYNAME || "定位中";
-      // axios.post("getExternalShopInfo", {  //正式环境调用接口
-      axios.post("getShopInfoTest", {  //测试环境调用接口
+      axios.post("getExternalShopInfo", {  //正式环境调用接口  //点击超市，美食，加油站，药店
+      // axios.post("getShopInfoTest", {  //测试环境调用接口
         centre_longitude: this.l,
         centre_latitude: this.s,
         longitude: window.LONGITUDE, // 经度
@@ -740,8 +749,8 @@ export default {
          // console.log(JSON.parse(Cookies.get("item")).city_longitude);
          // console.log(this.l)   //112.979353   北京113.23442278
          // console.log(this.s)   //28.213478    北京23.093666204
-      // axios.post("getExternalShopInfo", {  //正式环境调用接口
-      axios.post("getShopInfoTest", {  //测试环境调用接口
+      axios.post("getExternalShopInfo", {  //正式环境调用接口  上拉加载
+      // axios.post("getShopInfoTest", {  //测试环境调用接口
         centre_longitude:this.l,
         centre_latitude:this.s,
         longitude: window.LONGITUDE, // 经度
@@ -882,8 +891,9 @@ export default {
       this.l=(document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).city_longitude:window.LONGITUDE
       this.s=(document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).city_latitude:window.LATITUDE
       this.cityName1 =((document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).city_name:"")||window.CITYNAME || "定位中";
-      // axios.post("getExternalShopInfo", {  //正式环境调用接口
-      axios.post("getShopInfoTest", {  //测试环境调用接口
+      axios.post("getExternalShopInfo", {  //正式环境调用接口   页面初始化请求一次
+      // axios.post("getShopInfo", {  //正式环境调用接口   页面初始化请求一次
+      // axios.post("getShopInfoTest", {  //测试环境调用接口
         centre_longitude: this.l || window.LONGITUDE,
         centre_latitude:  this.s || window.LATITUDE,
         longitude: window.LONGITUDE, // 经度

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-show="isShareBtn" @click="getSharePage()" class="shareBtn"></div>
-    <div :class="isShow">
+    <div :class="isShow" @click="">
       <span>优惠</span>
     </div>
     <!-- 弹窗 -->
@@ -92,6 +92,7 @@
 </template>
 
 <script>
+  import attend from "@@/components/userAttend/attend.vue";
 import { mapState, mapMutations } from "vuex";
 import HomeSlider from "@@/components/base/slider";
 import axios from "@@/plugins/rsa/axios";
@@ -151,8 +152,25 @@ export default {
       scrollbar: false
     };
   },
-
+activated(){
+    // axios.post("queryUserAttend", {
+    //     mobileNo: this.token.productNo  //用户手机号码
+    //   }).then(res => {
+    // 			attend.isAttend=res.data.isAttend;
+    //   });
+},
   mounted() {
+     //积分打榜查询是否已报名
+     // alert("首页用户号码"+this.token.productNo);
+     // attend.userPhone=13135288961; //积分打榜存入用户号码
+    // axios.post("queryUserAttend", {
+    //     mobileNo: this.token.productNo  //用户手机号码
+    //   })
+    //   .then(res => {
+    // 			attend.isAttend=res.data.isAttend;
+    //   });
+
+
     try {
       // 获取优惠券
       this.getMainCoupon();
@@ -615,8 +633,9 @@ export default {
       if(isHebaoApp()) {
         this.isShareBtn = true;
       };
-      // axios.post("getExternalShopInfo", {  //正式地址
-      axios.post("getShopInfoTest", {    //测试地址
+      axios.post("getExternalShopInfo", {  //正式地址
+      // axios.post("getShopInfo", {  //正式地址
+      // axios.post("getShopInfoTest", {    //测试地址
         longitude: window.LONGITUDE, // 经度
         latitude: window.LATITUDE, // 维度
         stores_nm: "", // 门店名称
@@ -630,8 +649,8 @@ export default {
         }).then(res => {
           //神策
           let endTime = new Date() ;
-          console.log("商品列表数据花费的时间————————");
-          alert(endTime - startTime)
+          // console.log("商品列表数据花费的时间————————");
+          // alert(endTime - startTime);
           sa.track("loadDelay",{
             currentBusinessLine: "优惠频道",
             currentActivity: "调用优惠页附近商户getShopInfo接口",
@@ -647,7 +666,6 @@ export default {
             $url_path: window.location.href,
             currentBusinessLine: "优惠频道"
           });
-
           if (res.data && res.data.length > 0) {
             this.isError = true;
             // console.log("开始打印数————————");

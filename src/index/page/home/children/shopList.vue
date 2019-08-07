@@ -100,8 +100,8 @@ export default {
       let params = this.$route.query.params;
       // console.log(33333,params);
       axios
-        // .post("getShopInfo", {  // 正式环境调用接口
-        .post("getShopInfoTest", { // 测试环境调用接口
+        .post("getShopInfo", {  // 正式环境调用接口
+        // .post("getShopInfoTest", { // 测试环境调用接口
           longitude: window.LONGITUDE, // 经度
           latitude: window.LATITUDE, // 维度
           stores_nm: "", // 门店名称
