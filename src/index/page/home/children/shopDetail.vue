@@ -264,7 +264,7 @@ export default {
         // axios.post("getShopInfoDetail", {  //正式
           mbl_no: this.token.productNo || '15111427793',
           merc_id: this.shopParm.merc_id,
-        }).then(res => {  // 正式环境调用接口   走接口
+        }).then(res => {  // 正式环境调用接口 走接口
             if (res.code==="0") {
               this.shopData = res.data;
               // console.log("shop",this.shopData);
