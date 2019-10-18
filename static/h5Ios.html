@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>和包实验室</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="stylesheet" href="css/mui.min.css" />
+    <style type="text/css">
+    #list {
+        /*避免导航边框和列表背景边框重叠，看起来像两条边框似得；*/
+        margin-top: -1px;
+    }
+    </style>
+    <style>
+    html,
+    body {
+        background-color: beige;
+    }
+
+    .mui-bar .mui-pull-left .mui-icon {
+        padding-right: 5px;
+        font-size: 28px;
+    }
+
+    .mui-bar .mui-btn {
+        font-weight: normal;
+        font-size: 17px;
+    }
+
+    .mui-bar .mui-btn-link {
+        top: 1px;
+    }
+
+    .mui-content img {
+        width: 100%;
+    }
+
+    .hm-description {
+        margin: 15px;
+    }
+
+    .hm-description>li {
+        font-size: 14px;
+        color: #8f8f94;
+    }
+    </style>
+</head>
+
+<body>
+    <header id="header" class="mui-bar mui-bar-transparent">
+        <h1 class="mui-title">和包实验室</h1>
+    </header>
+    <div class="mui-content">
+        <div id="slider" class="mui-slider" style="max-height: 150px;">
+        </div>
+        <ul class="mui-table-view mui-grid-view mui-grid-9">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="tiaoban.html"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                跳板
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="toCMPPage.html"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                 至原生页
+            </div>
+        </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="toOCR.html"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                OCR
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="mailist.html"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                通讯录
+            </div>
+        </a></li>
+          <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="H5fetchPayPlug.html"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                支付
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+                <a href="javascript:void(0);" onclick="cmpNativeCall({actionName:'20001',needCmpLoadding:false,callback:'callback20001'});">
+            <span class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">设备信息</div>
+            </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="cmpInit()"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                优惠劵I
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="getLocationInfo()"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                定位功能
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="CmpExitAction();"><span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                 退出和包
+             </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="CMPShareAction('www.baidu.com','我是一个标题');"><span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                 分享功能
+             </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="H5shareToWeChatMiniApps();"><span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                分享小程序
+             </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="CmpTakePhoto(0,0);"> <span
+                class="mui-icon mui-icon-home" id="CmpTakePhoto"></span>
+            <div class="mui-media-body">
+                Cmp拍照
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="H5CmpSetTitleMenuList();"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                动态菜单
+            </div>
+        </a></li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="CmpOpenMapLocation('长沙','长沙天园假日小区','28.197272','112.983306','28.196794','113.07177');"> <span
+                class="mui-icon mui-icon-home"></span>
+            <div class="mui-media-body">
+                拉起地图
+            </div>
+        </a></li>
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);" onclick="CmpSavePicToAlbum('http://images.cnblogs.com/cnblogs_com/xinhudong/1120321/o_TIM%E6%88%AA%E5%9B%BE20171222164207.png')"> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  保存图片
+                </div>
+        </a></li>
+            <!-- <iframe src="www.baidu.com"></iframe> -->
+
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);"
+                                                                               onclick="CmpReadCardInfo('https://wwww.baidu.com','https://www.taobao.com')"> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  识别名片
+                </div>
+        </a></li>
+
+         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);"
+                                                                               onclick="scanCodeByApp()"> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  扫一扫
+                </div>
+        </a></li>
+
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);"
+                                                                               onclick="getIosNetType()"> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  获取网络信息
+                </div>
+        </a></li>
+
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="javascript:void(0);"
+                                                                               onclick="shareToWeChat('分享测试','https://www.baidu.com','哈哈哈你好呀','')"> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  分享到微信
+                </div>
+        </a></li>
+
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="activity://CMPWebViewPop"
+                                                                               onclick=""> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  关闭浏览器(不返回首页)
+                </div>
+        </a></li>
+
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="checkIsLocalNum.html"> <span
+                class="mui-icon mui-icon-home"></span>
+                <div class="mui-media-body">
+                  是否本机
+                </div>
+        </a></li>
+
+        </ul>
+        <div class="mui-card">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-collapse" id="titleId0" style="display: none;"><a class="mui-navigate-right" href="#">通讯录数据：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <textarea id="content0" rows="20" placeholder="多行文本框"></textarea>
+                        </div>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#" id="titleId1">响应数据：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <textarea id="content" rows="20" placeholder="多行文本框"></textarea>
+                        </div>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#" id="titleId2">响应数据2：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <textarea id="content2" rows="20" placeholder="多行文本框"></textarea>
+                        </div>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell mui-collapse" id="li3">
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/core-3.1.1.min.js"></script>
+    <script src="libs/juicer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mui.min.js"></script>
+    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.0.0.0"></script>
+    <script>
+    // var vConsole = new VConsole();
+
+    var num = 0;
+    var flg = 0;
+    // var html= "<img style='width: 40px;' height='40'  src='https://oimagea2.ydstatic.com/image?id=-7191942773245671392&product=adpublish&w=640&h=480&sc=0&rm=0'/>"
+    // $("#li3").html(html);
+
+    // document.write(html);  
+    //     var CmpTakePhoto = document.getElementById("CmpTakePhoto");
+    // document.write(html);
+    // $("#CmpTakePhoto").html();
+
+    var callBackGetPacketsContactsNum = 0;
+
+    function takePhotoBack(json) {
+        var title = document.getElementById("titleId1");
+        title.innerHTML = '自定义拍照功能:';
+        var info = document.getElementById("content");
+        var data = JSON.parse(json);
+        var base64 = data.photo;
+        console.log(data);
+        var html = "<img style='width: 40px;' height='40'  src='data:image/jpg;base64," + base64 + "'/>"
+        // document.write(html);  
+        // var CmpTakePhoto = document.getElementById("CmpTakePhoto");
+        // CmpTakePhoto.innerHTML(html);
+        $("#li3").html(html);
+        // info.innerHTML= json.photo;
+
+    }
+
+    function Camera(type) {
+        var btn;
+        if (type == 0) {
+            btn = document.getElementById("camera");
+        } else if (type == 1) {
+            btn = document.getElementById("camcorder")
+        } else if (type == 2) {
+            btn = document.getElementById("microphone")
+        }
+        btn.click();
+    }
+
+
+    function loadURL(url) {
+        var iFrame;
+        iFrame = document.createElement("iframe");
+        iFrame.setAttribute("src", url);
+        iFrame.setAttribute("style", "display:none;");
+        iFrame.setAttribute("height", "0px");
+        iFrame.setAttribute("width", "0px");
+        iFrame.setAttribute("frameborder", "0");
+        document.body.appendChild(iFrame);
+        // 发起请求后这个 iFrame 就没用了，所以把它从 dom 上移除掉
+        iFrame.parentNode.removeChild(iFrame);
+        iFrame = null;
+    }
+
+    function firstClick() { //默认加载完后。直接调用接口
+        loadURL("cmpExec://functionName=cmpInit2&aaa=aaa");
+    }
+
+    function callback(json) {
+        var title = document.getElementById("titleId1");
+        title.innerHTML = '话费抵扣券查询:';
+        var info = document.getElementById("content");
+        info.innerHTML = JSON.stringify(json);
+    }
+
+    function notifyAuthSuccess() {
+        mui.alert('实名成功了哟', 'Hello', function() {
+            info.innerText = '你刚关闭了警告框';
+        });
+
+    }
+
+    function callback20001(json) {
+
+        var info = document.getElementById("content");
+        info.innerHTML = JSON.stringify(json);
+        var title = document.getElementById("titleId1");
+        title.innerHTML = '设备信息响应数据:';
+
+    }
+
+    function callback2(json) {
+        // var info = document.getElementById("content2");
+        // // var MSGREC3=JSON.stringify(json['MSGREC3'][0]);
+        var title = document.getElementById("titleId1");
+        title.innerHTML = 'banner接口响应数据:';
+        var MSGREC3 = json['MSGREC3'][0];
+        var rec = MSGREC3['REC'];
+        // info.innerText =JSON.stringify(rec);
+
+        var tpl = document.getElementById('tpl').innerHTML;
+        var data1 = { 'REC': rec, 'count': rec.length };
+        var html = juicer(tpl, data1);
+        var sliderid = document.getElementById('slider');
+        sliderid.innerHTML = html;
+        // alert(html);
+        var slider = mui("#slider");
+        slider.slider({
+            interval: 5000
+        });
+    }
+
+    function test() {
+        var tpl = document.getElementById('tpl').innerHTML;
+        var html = juicer(tpl, data);
+        var sliderid = document.getElementById('slider');
+        sliderid.innerHTML = html;
+        alert(html);
+        var slider = mui("#slider");
+        slider.slider({
+            interval: 5000
+        });
+    }
+
+    function cmpInit() {
+        alert('开始调用接口!');
+        cmpNativeCall({
+            actionName: '50001',
+            reqData: { PEMBLNO: '18711183169' },
+            callback: 'callback'
+        });
+    }
+
+    function cmpInit2() {
+        alert('开始调用接口!');
+        cmpNativeCall({
+            actionName: ['50001', '50002'],
+            reqData: [{ PEMBLNO: '18711183169' },
+                {
+                    MSGAPP: 11,
+                    MSGID: "",
+                    MSGPROVCD: "",
+                    MSGTYP: 3
+                }
+            ],
+            callback: ['callback', 'callback2']
+        });
+    }
+
+    function callBackGetLocationInfo(json) {
+        $("#titleId0").show();
+        var info2 = document.getElementById("titleId0");
+        info2.innerHTML = '定位' + (++num);
+        var info = document.getElementById("content");
+        info.innerHTML = json; //JSON.stringify(json);
+        var title = document.getElementById("titleId1");
+        title.innerHTML = '定位响应数据:';
+    }
+
+    function getAddressList() {
+        goBatchPacketsContact('30', '18711093252,18711093252,18711093252');
+    }
+
+    function H5shareToWeChatMiniApps() {
+        var url = "http://pm.cyberwise.com.cn/www/HebaoH5/index.html";
+        var appid = 'gh_67d030d5af75';
+        var path = "pages/index/index";
+        var title = "中国移动和包";
+        var desc = '充话费、充流量、和聚宝、和包券、生活缴费、发红包、NFC，你的移动互联网生活一网打尽，更多精彩，期待关注 ';
+        var headImg = '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';
+        shareToWeChatMiniApps(url, appid, path, headImg, title, desc);
+    }
+    mui.init({
+        statusBarBackground: '#fff',
+        swipeBack: true
+    });
+    window.onload = function() {
+        alert('加载完成');
+        setTimeout(function() {
+            // H5CmpSetTitleMenuList();
+        }, 2000);
+
+        // firstClick();
+    }
+
+    function goSinglePacketHide() {
+        flg = 0;
+        goSinglePacketsContact();
+    }
+
+    function goSinglePacketShow() {
+        flg = 1;
+        goSinglePacketsContact();
+    }
+    //通讯录方法回调
+    window.callBackGetPacketsContacts = function(data) {
+        var info = document.getElementById("titleId0");
+        mui.alert('data--:' + data, 'Hello', function() {
+
+        });
+        info.innerHTML = data + (++callBackGetPacketsContactsNum);
+        if (flg) {
+            $("#titleId0").show();
+        }
+
+    }
+
+    function H5CmpSetTitleMenuList() {
+        var menu = [{
+                "menuName": "分享",
+                "menuUrl": "javascript:testback()"
+            },
+            { "menuName": "分享1", "menuUrl": "https://www.baidu.com" }
+        ];
+        alert(JSON.stringify(menu))
+        CmpSetTitleMenuList(JSON.stringify(menu));
+    }
+
+    function H5CmpSaveToAddrList() {
+        var data = [{ name: '大王', mobile: '13899999999' }, { name: '王八', mobile: '13988888888' }];
+        CmpSaveToAddrList(data, 'H5CmpSaveToAddrListCallBack');
+
+    }
+
+    function H5CmpSaveToAddrListCallBack(state) {
+        mui.toast('添加回调成功:' + state, { duration: 'long', type: 'div' })
+
+    }
+
+    function H5CmpDeleFromAddrList() {
+        var data = [{ name: '大王', mobile: '13899999999' }, { name: '王八', mobile: '13988888888' }];
+        CmpDeleFromAddrList(data, 'H5CmpDeleFromAddrListCallBack');
+    }
+
+    function H5CmpDeleFromAddrListCallBack(state) {
+        mui.toast('删除回调成功:' + state, { duration: 'long', type: 'div' })
+
+    }
+
+    function testback() {
+        mui.toast('成功', { duration: 'long', type: 'div' })
+    }
+
+    //用于统一显示的内容
+    function changeContent(titlecontent,content){
+        var title = document.getElementById("titleId1");
+        title.innerHTML=titlecontent;
+        var info = document.getElementById("content");
+        info.innerHTML = content;
+    }
+
+    //扫一扫回调方法
+    function callbackScanCodeByApp(url){
+
+        info.innerHTML = url;
+        changeContent("扫描结果为",url)
+        // alert("扫描结果为  " + url);
+    }
+
+    //获取网络类型
+    function getIosNetType(){
+        var a = CmpGetIOSNetType();
+        changeContent("网络类型为",a);
+    }
+
+    var shotCount = 0;
+    //获取截屏状态  status为截屏状态
+    function CmpGetIOSScreenshotStatus(status){
+        changeContent("本次截屏状态为",status);
+        var title = document.getElementById("titleId2");
+        title.innerHTML = '记录截屏次数:';
+        var info = document.getElementById("content2");
+        shotCount++;
+        info.innerHTML = "截屏次数为" + shotCount;
+    }
+
+    </script>
+</body>
+<script id="tpl" type="text/template">
+    <div class="mui-slider-group mui-slider-loop">
+        {@each REC as it,index} {@if index==0}
+        <div class="mui-slider-item mui-slider-item-duplicate">
+            <a href="${it.MSGDESTURL}">
+                <img src="${it.MSGIMG}">
+            </a>
+        </div>
+        <!-- 第一张 -->
+        <div class="mui-slider-item">
+            <a href="${it.MSGDESTURL}">
+                <img src="${it.MSGIMG}">
+            </a>
+        </div>
+        {@else if index === count}
+        <!-- 第四张 -->
+        <div class="mui-slider-item">
+            <a href="${it.MSGDESTURL}">
+                <img src="${it.MSGIMG}">
+            </a>
+        </div>
+        <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+        <div class="mui-slider-item mui-slider-item-duplicate">
+            <a href="${it.MSGDESTURL}">
+                <img src="${it.MSGIMG}">
+            </a>
+        </div>
+        {@else}
+        <div class="mui-slider-item">
+            <a href="${it.MSGDESTURL}">
+                <img src="${it.MSGIMG}">
+            </a>
+        </div>
+        {@/if} {@/each}
+    </div>
+    <div class="mui-slider-indicator">
+        {@each REC as it,index} {@if index==0}
+        <div class="mui-indicator mui-active"></div>
+        {@else}
+        <div class="mui-indicator"></div>
+        {@/if} {@/each}
+    </div>
+</script>
+
+</html>
