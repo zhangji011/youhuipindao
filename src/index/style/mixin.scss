@@ -1,0 +1,176 @@
+$blue: #3190e8;  
+$bc: #e4e4e4;
+$fc:#fff;
+
+@mixin space() {
+	overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+// 背景图片地址和大小
+@mixin bis($url) { 
+	background-image: url($url);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+@mixin borderRadius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+	border-radius: $radius;
+}
+//定位全屏
+@mixin allcover{
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+//定位上下左右居中
+@mixin center {  
+	position: absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+//定位上下居中
+@mixin ct {  
+	position: absolute;
+	top: 50%;
+    transform: translateX(-50%) translateY(-50%)!important;
+}
+@mixin activeborder($color){
+	content: " ";
+	position: absolute;
+	left: 20%;
+	bottom: 0;
+	width: 60%;
+	height: .1875rem;
+	background: $color;
+}
+// .03125rem 渐变实现 背景渐变，一半有颜色，一半透明
+@mixin onepx($color){
+	content: " ";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: .0625rem;
+	background-image: linear-gradient(0deg, $color 50%, transparent 50%);
+}
+@mixin onepx_top($color){
+	content: " ";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: .0625rem;
+	background-image: linear-gradient(0deg, $color 50%, transparent 50%);
+}
+// .03125rem 缩放实现 transform:scale()来达到压缩一半的目的
+@mixin onepx1($color){
+	content: "  ";
+	position: relative;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: .0625rem;
+	background-color: #d8d8d8a8;
+	/* 如果不用 background-color, 使用 border-top:.0625rem solid #f00; 效果是一样的*/
+	-webkit-transform: scaleY(.5);
+	transform:scaleY(.5);
+}
+// 四条边框都是.03125rem 利用transform:scale()，只不过这次缩放的是整个内容
+@mixin allOnePx($color){
+	content: "  ";
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index:-1;
+	width: 200%;
+	height:200%;
+	border:.0625rem solid #f00;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transform: scale(.5, .5);
+	transform: scale(.5, .5);
+	border-radius: .625rem;
+}
+
+//定位上下居中
+@mixin cl {  
+	position: absolute;
+	left: 50%;
+    transform: translateX(-50%);
+}
+
+//宽高
+@mixin wh($width, $height){
+	width: $width;
+	height: $height;
+}
+
+//字体大小、行高、字体
+@mixin font($size, $line-height, $family: 'Microsoft YaHei') {  
+	font: #{$size}/#{$line-height} $family;
+}
+
+//字体大小，颜色
+@mixin sc($size, $color){
+	font-size: $size!important;
+	color: $color!important;
+}
+
+//flex 布局和 子元素 对其方式
+@mixin fj($type: space-between){
+	display: flex;
+	justify-content: $type;
+
+}
+body,html{
+	background-color: #F9F9F9;
+	font-family: PingFangSC-Regular;
+}
+
+.head_logo{
+	left: 50%;
+	font-weight: 400;
+	font-family: PingFangSC;
+	@include sc(1.125rem, #272727);
+	@include wh(8.25rem, 1.625rem);
+	@include ct;
+	text-align: center;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+	color:#C7C7C7;
+}
+	
+input::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+　　color:#C7C7C7;
+}
+input:-moz-placeholder { /* Mozilla Firefox 19+ */
+　　color:#C7C7C7;
+}
+
+input::-ms-input-placeholder { /* Internet Explorer 10+ */
+　　color:#C7C7C7;
+}
+input{
+	color:#4C4C4C;
+}
+.nullHeight {
+	height: 0.5625rem;
+	background: #F6F7F8;
+  }
+.null {
+	height: 4.5rem;
+	// padding-top: 1.2rem;
+	font-size: 0.6875rem;
+	color: #afadadc4;
+	text-align: center;
+}
