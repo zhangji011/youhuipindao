@@ -91,6 +91,13 @@ export default {
   },
 
   mounted() {
+		
+		sa.track("buttonClick", {
+				  buttonName: "拼购",
+				  topCategory: "优惠",
+				  subCategory: "优惠：京东拼购"
+				});
+		
     if (this.tokenstatus == 11) {
       this.isShowInfo = true;
     } else {
@@ -192,7 +199,7 @@ export default {
     float: left;
     width: 25.5%;
     height: 5.7rem;
-    border-radius: 0.3rem; 
+    border-radius: 0.2rem; 
     img {
       width: 100%;
       height: 100%;
@@ -202,11 +209,12 @@ export default {
     float: right;
     width: 72%;
     .top {
-      margin: 0.3rem 0 0.5rem 0;
-      font-size: 0.875rem;
+      margin: 0 0 0.5rem 0;
+      font-size: 0.975rem;
       // height: 2.56rem;
       color: #13252E;
       overflow: hidden;
+	  font-family: "Helvetica";
       // text-overflow: ellipsis;
       // display: -webkit-box;
       // -webkit-line-clamp: 2; /*3表示只显示3行*/
@@ -233,19 +241,23 @@ export default {
             }
         }
         span:nth-child(1) {
-          color: #E52824;
-          font-weight: 700;
-          font-size: 1rem;
+          color: #F2270D ;
+          // font-weight: 700;
+          font-size: 1.14rem;
           margin-right: 0.3rem;
+		  font-family: "DINAlternate-Bold";
         }
         span:nth-child(2) {
-          color: #7F7F7F;
+			font-family: "Helvetica";
+          color: #B0B1B1;
           text-decoration: line-through;
         }
         p {
           color: #A6A6A6;
 		  padding-top: 0.2rem;
-		  color: #b5b5b5;
+		  color: #BFBFBF;
+		  font-family: "PingFangHK-Regular";
+		  font-size: 0.81rem;
         }
       }
       .bottom_right {
@@ -253,10 +265,11 @@ export default {
         font-size: 0.875rem;
         color: #FFFFFF;
         padding: 0.35rem 0.66rem;
+		font-family: "PingFangHK-Regular";
         // background: linear-gradient(90deg, #FD477A 0%, #E52824 100%);
         border-radius: 50px;
         margin: 0.2rem 0;
-		background: linear-gradient(90deg, #f76ca2 0%, #fa4c88 100%);
+		background-image: linear-gradient(270deg, #FF3D7D 17%, #F66BA1 100%);
       }
     }
   }

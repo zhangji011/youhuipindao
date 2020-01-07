@@ -1,5 +1,7 @@
 <template>
   <div>
+		<!-- 20190106新增白名单入口 -->
+		<div class="testlist" v-if="isadmin" @click.prevent="gotesturl">测试</div>
     <!-- <section class="s_1">
       <ul>
         <li class="l t" @click="getClickCity()">
@@ -158,13 +160,13 @@ export default {
         stop: 60
       },
 	  shopInfourl:"getShopInfoTest"  ,//	附近优惠请求地址接口，默认请求所有商户
-	  slider1:[]  //getindexAlldata数据
+	  slider1:[]  ,//getindexAlldata数据
+	  isadmin:false
     };
   },
   computed: {},
 
   mounted() {
-		
 		asyncLoaded(
 		  "https://api.map.baidu.com/api?v=2.0&ak=wrkfH0yCNoWEHrXm0L9A5KdGaU8To9dR&callback=window.LBSBD_1",
 		  () => {}
@@ -196,6 +198,11 @@ export default {
     } else {
       this.init();
     }
+	this.shoplistnone();
+	// 20190106加白名单入口
+	if(this.token.productNo=="13135288961"){
+		this.isadmin=true;
+	}
   },
   created() {
     //神策
@@ -251,12 +258,150 @@ export default {
       // "CITYCOUNTY",
       "OPENANDCLOSE"
     ]),
+	gotesturl(){  //20190106增加  白名单
+		var url = "http://hbtest.letshappy.cn/test4/main.html#/home1?"+(window.location.href.split("?")[1]||"testurl=none");
+		if ((/iP(ad|hone|od)/.test(navigator.userAgent) ? "ios" : "android") == "android") {
+		  window.goActivity.goWeb(url);
+		} else {
+			// window.location.href = url
+			window.location = "activity://goWeb?url="+url; 
+		}
+	},
+	shoplistnone(){
+		const _that=this;
+		setTimeout(function(){
+			if(_that.shopList.length<1){
+				_that.init();
+			}
+		},3000)
+	},
 	getTopCart(){
-		axios.get("index/getIndexAllData").then((res)=>{
-			this.slider1=res.data.catalogs;
+		this.slider1=[
+			{
+				"archiveFlag":0,
+				"commodityPrice":null,
+				"creatTime":1545106849000,
+				"effectiveDate":null,
+				"expirationDate":null,
+				"isShow":0,
+				"marketType":"null",
+				"marketingDesc":"",
+				"marketingEvent":"",
+				"marketingEventCotent":"https://www.cmpay.com/mkmweb/query_nearmerc_type.xhtml?CITY_CD=731&MERC_TRD_CLS",
+				"marketingIcon":"https://find.cmpay.com:9105/group1/M00/0B/00/rBgEjl3VareANVQfAAAICcoYOYo370.png",
+				"marketingId":21,
+				"marketingIndex":null,
+				"marketingNumber":6,
+				"marketingPosition":"CATALOG",
+				"marketingRegion":"",
+				"marketingStatus":0,
+				"marketingTitle":"全部",
+				"mercTrdCls":"",
+				"middleId":null,
+				"originalPrice":null,
+				"updateBy":"",
+				"updateTime":1574267576000
+			},{
+				"archiveFlag":0,
+				"commodityPrice":null,
+				"creatTime":1545106446000,
+				"effectiveDate":null,
+				"expirationDate":null,
+				"isShow":0,
+				"marketType":"null",
+				"marketingDesc":"",
+				"marketingEvent":"",
+				"marketingEventCotent":"https://www.cmpay.com/mkmweb/query_nearmerc_type.xhtml?CITY_CD=731&MERC_TRD_CLS=1505",
+				"marketingIcon":"https://find.cmpay.com:9105/group1/M00/0B/00/rBgEjl3ValOABhlzAAAIjosvr8Q842.png",
+				"marketingId":12,
+				"marketingIndex":null,
+				"marketingNumber":1,
+				"marketingPosition":"CATALOG",
+				"marketingRegion":"",
+				"marketingStatus":0,
+				"marketingTitle":"超市",
+				"mercTrdCls":"1505",
+				"middleId":null,
+				"originalPrice":null,
+				"updateBy":"",
+				"updateTime":1574267475000
+			},
+			{
+				"archiveFlag":0,
+				"commodityPrice":null,
+				"creatTime":1545106821000,
+				"effectiveDate":null,
+				"expirationDate":null,
+				"isShow":0,
+				"marketType":"null",
+				"marketingDesc":"",
+				"marketingEvent":"",
+				"marketingEventCotent":"https://www.cmpay.com/mkmweb/query_nearmerc_type.xhtml?CITY_CD=731&MERC_TRD_CLS=1300",
+				"marketingIcon":"https://find.cmpay.com:9105/group1/M00/0B/00/rBgEjl3Val-AGYniAAAIeps0LdI958.png",
+				"marketingId":20,
+				"marketingIndex":null,
+				"marketingNumber":2,
+				"marketingPosition":"CATALOG",
+				"marketingRegion":"",
+				"marketingStatus":0,
+				"marketingTitle":"美食",
+				"mercTrdCls":"1300",
+				"middleId":null,
+				"originalPrice":null,
+				"updateBy":"",
+				"updateTime":1574267488000
+			},
+			{
+				"archiveFlag":0,
+				"commodityPrice":null,
+				"creatTime":1545106393000,
+				"effectiveDate":null,
+				"expirationDate":null,
+				"isShow":0,
+				"marketType":"null",
+				"marketingDesc":"",
+				"marketingEvent":"",
+				"marketingEventCotent":"https://www.cmpay.com/mkmweb/query_nearmerc_type.xhtml?CITY_CD=731&MERC_TRD_CLS=1505",
+				"marketingIcon":"https://find.cmpay.com:9105/group1/M00/0B/00/rBgEjl3VamqAaYURAAAGP59PCdk952.png",
+				"marketingId":10,
+				"marketingIndex":null,
+				"marketingNumber":4,
+				"marketingPosition":"CATALOG",
+				"marketingRegion":"",
+				"marketingStatus":0,
+				"marketingTitle":"加油站",
+				"mercTrdCls":"1818",
+				"middleId":null,
+				"originalPrice":null,
+				"updateBy":"",
+				"updateTime":1574267499000
+			},
+			{
+				"archiveFlag":0,
+				"commodityPrice":null,
+				"creatTime":1545106272000,
+				"effectiveDate":null,
+				"expirationDate":null,
+				"isShow":0,
+				"marketType":"null",
+				"marketingDesc":"",
+				"marketingEvent":"",
+				"marketingEventCotent":"https://www.cmpay.com/mkmweb/query_nearmerc_type.xhtml?CITY_CD=731&MERC_TRD_CLS=1515",
+				"marketingIcon":"https://find.cmpay.com:9105/group1/M00/0B/00/rBgEjl3VanOAPnouAAAHIJ7X4zo039.png",
+				"marketingId":6,
+				"marketingIndex":null,
+				"marketingNumber":5,
+				"marketingPosition":"CATALOG",
+				"marketingRegion":"",
+				"marketingStatus":0,
+				"marketingTitle":"药店",
+				"mercTrdCls":"1515",
+				"middleId":null,
+				"originalPrice":null,
+				"updateBy":"",
+				"updateTime":1574267508000
+			}];
 			this.getListTitle();
-		}).catch((res)=>{
-		})
 	},
     scrollListen(pos) {
       if (Math.abs(pos.y) > 320) {
@@ -292,7 +437,6 @@ export default {
       });
     },
     aginEnter() {
-      // alert(33)
       this.SHOWLOADING(true);
       this.initScroll();
       let that = this;
@@ -321,7 +465,6 @@ export default {
                   that.cityName1 = r.address.city;
                 }
                 that.init();
-                // alert(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
               });
             } else {
               this.SHOWLOADING(true);
@@ -337,7 +480,6 @@ export default {
       this.shopList[i].PIC_URL_1 = "/static/img/error.png";
     },
     // GetDistance(a, b, c, d) {
-    //   // alert(GetDistance(a, b, c, d))
     //   return GetDistance(a, b, c, d);
     // },
     detail(url) {
@@ -395,6 +537,7 @@ export default {
         // map_type: window.isUseBaiDuLoc,
         merc_trd_cls: mercParm
         }).then(res => {
+			this.$refs.childscroll.betterScrollTo();//滚动条重回到顶部
           if (res.data && res.data.length > 0) {
             this.isError = true;
             this.shopList = this.filterObj(res.data);
@@ -577,23 +720,6 @@ export default {
         this.showCity = true;
         this.showCitys = false;
       }
-      // this.CURRENTPAGE = 1;
-      // this.SHOWLOADING(true);
-      // if (history.length >= 3 && localStorage && getLItem("shopList", 60000)) {
-      //   // if (history.length >= 3 && localStorage && localStorage.getItem("shopList")) {
-      //   this.CURRENTPAGE = 1;
-      //   this.SHOWLOADING(true);
-      //   // this.shopList = JSON.parse(localStorage.getItem("shopList"));
-      //   this.shopList = getLItem("shopList", 60000);
-      //   this.initScroll();
-      //   setTimeout(() => {
-      //     this.SHOWLOADING(false);
-      //   }, 300);
-      //   // if (res.data.length < this.PAGNUM) {
-      //   this.shopListFlag = true;
-      //   return;
-      // }
-
       this.CURRENTPAGE = 1;
       if (!flag) {
         this.SHOWLOADING(true);
@@ -603,16 +729,6 @@ export default {
       // 单点登录
       // 请求banner1
       this.cityName1 = ((document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).cityName:"")||window.CITYNAME || "定位中";
-      // this.cityName1 =
-      //   window.CITYNAME ||
-      //   (/iP(ad|hone|od)/.test(navigator.userAgent)
-      //     ? window.LBSINFO.CityName || "定位中"
-      //     : getCode(window.LBSINFO.CityName));
-
-      // if (!window.LONGITUDE) {
-      //   this.SHOWLOADING(false);
-      //   return;
-      // }
       this.l=(document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).city_longitude:window.LONGITUDE
       this.s=(document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).city_latitude:window.LATITUDE
       this.cityName1 =((document.cookie.indexOf("item")!=-1)?JSON.parse(Cookies.get("item")).city_name:"")||window.CITYNAME || "定位中";
@@ -655,7 +771,7 @@ export default {
           } else {
             this.isError = true;
             this.totalInit++;
-            if (this.totalInit <= 5) {
+            if (this.totalInit <= 10) {
               this.init();
             } else {
               // this.shopList = getLItem("shopList", 600000);
@@ -687,10 +803,8 @@ export default {
           //   this.home.refresh();
           //   this._calcHeight();
           // }, 40);
-          // alert(33)
         })
         .catch(res => {
-          // alert(11)
           // setTimeout(()=>{
           this.SHOWLOADING(false);
           this.totalInit++;
@@ -775,16 +889,15 @@ export default {
   watch:{
     latitude(curVal,oldVal){
       this.init()
-      if(curVal&&curVal!="" && this.shopList.length<=0){
-      }
+      // if(curVal&&curVal!="" && this.shopList.length<=0){
+      // }
 
     },
     cityName1(curVal,oldVal){
-      this.flagS=false
+		this.$refs.childscroll.betterScrollTo();//滚动条重回到顶部
+      // this.flagS=false
       this.init()
-      if(curVal&&curVal!="" && this.shopList.length<=0){
-
-      } }
+      }
   }
   // props:['activeIcon']
 };
@@ -1451,5 +1564,19 @@ header {
 .fx {
   display: block;
   position: fixed;
+}
+.testlist{
+	position: fixed;
+	right: 0;
+	top: 20%;
+	font-size: 0.75rem;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background-color: #13252e;
+	color: #fff;
+	text-align: center;
+	line-height: 2rem;
+	z-index: 999999;
 }
 </style>

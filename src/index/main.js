@@ -99,6 +99,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+	if (to.meta.title) {
+    document.title = to.meta.title
+  }
   animationProgress(to, from, next);
   // 单点登录
   //?SERVICE=user_ssoservice&VERSION=1.0&PARTNER=80010003&SIGN_TYPE=MD5&CREDTENTIAL=1593305,1502335609,1502336209,1502335609,218.77.2.82,client.cmpay.com&SIGN_DATA=08229a7a638c243bb7ab0a0e67e6d81c&viewCode=html
@@ -134,7 +137,6 @@ router.beforeEach((to, from, next) => {
       .then(res => {
         //神策
         sa.login(res.data.usrNo);
-        console.log("sa.login登录成功");
         let endTime = new Date();
         sa.track("loadDelay", {
           currentBusinessLine: "优惠频道",
@@ -148,7 +150,6 @@ router.beforeEach((to, from, next) => {
         store.commit("TOKEN", res.data || {});
         store.commit("TOKENSTATUS", res.data.productNo.length);
         }).catch((res) => {
-          // console.log("加载失败了")
         })
       
     })

@@ -19,8 +19,8 @@
                       <span class="l">{{item.BUS_ADDR}}</span>
                       <span class="r">{{item.distance}}km</span>
                   </div>
-				  <!-- <div class="c3" v-show="isShowInfo"> -->
-                  <div class="c3" v-show="true">
+				  <div class="c3" v-show="isShowInfo">
+                  <!-- <div class="c3" v-show="true"> -->
                   <span v-for="(item2,ide2) in item.DRAW_REC" class="b" :class="{noshow:ide2>2}" >{{item2.drawNm}}</span>
                         <span v-for="(item1,ide) in item.ACT_INF" class="b" :class="{noshow:(item.DRAW_REC.length+ide)>2}" >{{item1.GME_ABBR}}</span>
                    </div>

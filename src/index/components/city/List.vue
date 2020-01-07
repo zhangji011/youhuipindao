@@ -436,7 +436,7 @@ export default {
   border-radius:0.1rem;
   text-align: center;
   font-family: PingFangSC-Regular;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #13252E;
   text-overflow: ellipsis;
   white-space: nowrap;

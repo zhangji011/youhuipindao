@@ -9,8 +9,10 @@
 		    <div class="top">{{item.wname}}</div>
 		    <div class="bottom">
 		      <div class="bottom_left">
-		        <p><i>￥</i>{{item.miaoshaprice}}</p>
-		        <p><i>￥</i>{{item.jdprice}}</p>
+		        <div class="bot_leftbox">
+					<p><i>￥</i>{{item.miaoshaprice}}</p>
+					<p><i>￥</i>{{item.jdprice}}</p>
+				</div>
 		      </div>
 		      <div class="bottom_right" v-if="kill == true">立即抢购</div>
 		      <div class="bottom_right" v-else>即将开抢</div>
@@ -98,6 +100,11 @@ export default {
   },
 
   mounted() {
+		sa.track("buttonClick", {
+				  buttonName: "秒杀",
+				  topCategory: "优惠",
+				  subCategory: "优惠：京东秒杀"
+				});
     if (this.tokenstatus == 11) {
       this.isShowInfo = true;
     } else {
@@ -178,7 +185,7 @@ export default {
 .list {
   padding: 0.8rem;
   border-bottom: 1px solid #ccc;
-	border-radius: 1rem;
+	border-radius: 8px;
 	// margin-bottom: 0.4rem;
 	background-color: #fff;
   .list_left {
@@ -218,7 +225,14 @@ export default {
     .bottom {
       .bottom_left {
         font-size: 0.75rem;
+		height: 2rem;
         float: left;
+		.bot_leftbox{
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: flex-end;
+		}
         p {
             i {
                 font-size: 0.6875rem;
@@ -226,25 +240,30 @@ export default {
         }
         p:nth-child(1) {
           color: red;
-          font-weight: 700;
-          font-size: 0.875rem;
+          font-size: 1.44rem;
           margin-right: 0.3rem;
+		  font-family: "DINAlternate-Bold";
         }
         p:nth-child(2) {
+			font-family: "Helvetica";
+			font-size: 0.75rem;
           color: #bbb;
           text-decoration: line-through;
+		  padding-bottom: 0.1rem;
         }
       }
       .bottom_right {
         float: right;
         font-size: 0.875rem;
-        color: #f23877;
+        color: #F23877;
         padding: 0.35rem 0.66rem;
         // background: linear-gradient(90deg, #fd477a 0%, #e52824 100%);
         border-radius: 50px;
         margin: 0.2rem 0;
-		border: 0.1rem solid #f23877;
+		// border: 0.1rem solid #f23877;
+		border: 2px solid #F23877;
 		font-weight: bold;
+		font-family: "PingFangTC-Semibold"
       }
     }
   }

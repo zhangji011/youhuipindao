@@ -2,6 +2,7 @@
   <div>
     <div class="home">
 		<!-- 购物车、订单 -->
+      <!-- <div class="order" v-if="isandroid"> -->
       <div class="order">
         <p><img src="../../../images/ding.png" alt="" @click="dingClick()"></p>
         <p><img src="../../../images/gou.png" alt="" @click="gouClick()"></p>
@@ -89,12 +90,16 @@ export default {
       pullDownRefresh: {
         threshold: 120,
         stop: 60
-      }
+      },
+			isandroid:false   //安卓显示购物车,ios不显示
     };
   },
   computed: {},
 
   mounted() {
+		if((/iP(ad|hone|od)/.test(navigator.userAgent) ? "ios" : "android") == "android"){
+				  this.isandroid = true;
+		}
     var vm = this;
     // 用$on事件来接收参数
     Bus.$on('val', (data) => {

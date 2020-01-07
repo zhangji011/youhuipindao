@@ -26,14 +26,16 @@ export default [{
             path: '',
             component: home1,
             meta:{
-                keepAlive: true
+                keepAlive: true,
+				title:"附近优惠"
             }
         },
         {
             path: 'home1',
             component: home1,
             meta:{
-                keepAlive: true
+                keepAlive: true,
+				title:"附近优惠"
             }
             // beforeEnter: (to, from, next) => {
             //     // 请求banner1
@@ -88,14 +90,16 @@ export default [{
                 path: 'group', 
                 component: group,
                 meta:{
-                    keepAlive: false
+                    keepAlive: false,
+					title:"拼购"
                 }
             },
             {
                 path: 'seckill', 
                 component: seckill,
                 meta:{
-                    keepAlive: false
+                    keepAlive: false,
+					title:"秒杀"
                 }
             }
         ]

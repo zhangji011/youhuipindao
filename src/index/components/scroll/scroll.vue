@@ -188,6 +188,9 @@ export default {
     }, 20);
   },
   methods: {
+	  betterScrollTo(){  //201219增 附近优惠切换后滚动条不在最顶部
+		  this.scroll.scrollTo(0,0,0);
+	  },
     initScroll() {
       if (!this.$refs.wrapper) {
         return;
@@ -206,11 +209,12 @@ export default {
         // pullDownRefresh: this.pullDownRefresh,
         pullUpLoad: this.pullUpLoad,
         startY: this.startY,
-        mouseWheel: false,
+        mouseWheel: true,
         useTransition: false,
         bounce: false, //this.bounce
         stopPropagation: false, // this.stopPropagation
         preventDefault: true,
+		// eventPassthrough:'vertical',
         // deceleration:0.002
         // directionLockThreshold:10
 				momentumLimitDistance:10,  //默认15
@@ -268,7 +272,6 @@ export default {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments);
     },
     clickItem(e, item) {
-      console.log(e);
       this.$emit("click", item);
     },
     destroy() {
@@ -291,7 +294,6 @@ export default {
         this.refresh();
       } else {
         console.log(34)
-        console.log(this.data1)
         if(this.data1){
 
           console.log(35)

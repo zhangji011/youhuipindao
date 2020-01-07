@@ -11,8 +11,9 @@
           <span v-else>即将开始</span>
         </div>
       </div>
-	  <div style="width:100%;height: 2rem;background: #fb6398;"></div>
+	  <div style="width:100%;height: 2rem;background: #F55B97 ;"></div>
       <div class="order">
+      <!-- <div class="order" v-if="isandroid"> -->
         <p><img src="../../../images/ding.png" alt="" @click="dingClick()"></p>
         <p><img src="../../../images/gou.png" alt="" @click="gouClick()"></p>
       </div>
@@ -123,11 +124,15 @@ export default {
       seckll: true,
       startTimee: '',
       // seckill2: false
+	  isandroid:false   //安卓显示购物车,ios不显示
     };
   },
   computed: {},
 
   mounted() {
+	  if((/iP(ad|hone|od)/.test(navigator.userAgent) ? "ios" : "android") == "android"){
+		  this.isandroid = true;
+	  }
     var vm = this
     // 用$on事件来接收参数
     Bus.$on('val', (data) => {
@@ -361,8 +366,8 @@ export default {
       // this.seckill2 = this.timeList[this.avtiveTime].time + ":00"
       this.CURRENTPAGE = 0
       this.seckillList = []
-
-      // this.$refs.finish.finish();
+      this.$refs.finish.finish();
+			this.$refs.finish.betterScrollTo();
       this.loadMore()
     },
     get() {
@@ -461,7 +466,8 @@ body {
 }
 
 .time {
-  background-color: #fb6398;
+  // background-color: #fb6398;
+	background-image: linear-gradient(180deg, #F82168 0%, #F55B97 100%);
   height: 4rem;
   // overflow: auto;
   white-space: nowrap;
@@ -534,7 +540,7 @@ body {
   // padding-bottom: 2rem;
   // background: #f0f1f2;
   overflow: hidden;
-  background-color: #f7f5f8;
+  background-color: #f6f7f8;
 }
 .home1 {
   // margin-top: 4.25rem;

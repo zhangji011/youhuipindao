@@ -31,8 +31,8 @@ axios.interceptors.request.use(config => {
     }else{
          //拼接请求参数
          if (config.url == "queryAccount") {
-           // alert(window.location.href)
-            // config.url = urlObj.api + config.url+"?"+window.location.href.split('?')[1].replace(/SIGN_DATA/g,'sign_data').replace(/CREDTENTIAL/g,'credtential')
+			 // var localhref="www.baidu.com?SOURCE=DISCOVER&account=13135288961&viewCode=html&SERVICE=user_ssoservice&VERSION=1.0&PARTNER=80010003&SIGN_TYPE=MD5&credtential=400030576398,1567414630,1567415230,1567414630,175.11.30.82,client.cmpay.com&sign_data=58e2a682ce1552acc535c540ebab5146&timestamp=1567414630.237079";
+				// config.url = urlObj.api + config.url+"?"+localhref.split('?')[1].replace(/SIGN_DATA/g,'sign_data').replace(/CREDTENTIAL/g,'credtential')
             config.url = urlObj.api + config.url + "?" + window.location.href.split('?')[1].replace(/SIGN_DATA/g, 'sign_data').replace(/CREDTENTIAL/g, 'credtential')
         } else if (config.url.indexOf('getContent') > 0) {
             // 更换头部
